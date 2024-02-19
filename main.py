@@ -17,15 +17,23 @@ student_data = {
     "height": "",
 }
 
-# Get a list of students
-@app.get("/")
+
+@app.get("/") # Get a list of students
 def get_students():
     ''' Returns all the students  '''
 
     return students
 
+@app.get("/students/{id}") # Get method to get a single student
+def get_students_by_id(id: int):
+    student = students.get(id)
+    if not student:
+        return {"error": "Student not found"}
+    
+    return student
+
 # Add a new student
-@app.post("/students")
+@app.post("/students") # Post method to add a new student
 def add_student(name: str, age: int, sex: str, height: float):
     new_student = student_data.copy()
     new_student["id"] = str(UUID(int=len(students) + 1))
@@ -39,11 +47,12 @@ def add_student(name: str, age: int, sex: str, height: float):
     return {"message": "Student added successfully", "data": new_student}
 
 # Get a specific student
-@app.get("/students/{id}")  # GET method to get a resource
-def get_student_by_id(id: int, name: str, age: int, sex: str, height: float):
+@app.put("/students/{id}")  # PUT method to get a resource
+def update_student(id: int, name: str, age: int, sex: str, height: float):
     student = students.get(id)
     if not student:
         return {"error": "Student not found"}
+    
     student["name"] = name
     student["age"] = age
     student["sex"] = sex

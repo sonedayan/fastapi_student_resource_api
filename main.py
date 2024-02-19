@@ -36,7 +36,7 @@ def get_students_by_id(id: int):
 @app.post("/students") # Post method to add a new student
 def add_student(name: str, age: int, sex: str, height: float):
     new_student = student_data.copy()
-    new_student["id"] = str(UUID(int=len(students) + 1))
+    new_student["id"] = int(UUID(int=len(students) + 1))
     new_student["name"] = name
     new_student["age"] = age
     new_student["sex"] = sex
@@ -47,7 +47,7 @@ def add_student(name: str, age: int, sex: str, height: float):
     return {"message": "Student added successfully", "data": new_student}
 
 # Get a specific student
-@app.put("/students/{id}")  # PUT method to get a resource
+@app.put("/students/{id}")  # PUT method to update a student
 def update_student(id: int, name: str, age: int, sex: str, height: float):
     student = students.get(id)
     if not student:
